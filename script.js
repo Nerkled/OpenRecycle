@@ -1,10 +1,8 @@
-// Define the Overpass API query to fetch parks within a 500 meter radius
-const latitude = 40.712776; // Latitude of the center point
-const longitude = -74.005974; // Longitude of the center point
+// Declare latitude and longitude variables globally
+let latitude = 40.712776; // Default Latitude of the center point
+let longitude = -74.005974; // Default Longitude of the center point
 const radius = 10000; // Radius in meters
 
-// Overpass query using the "around" filter for radius
-const item = 'restaurant';
 const query = `
     [out:json];
     (
@@ -28,11 +26,9 @@ const query = `
 
 // Function to fetch data from Overpass API
 async function fetchData() {
-    // Construct the API URL with the encoded query
     const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
     try {
-        // Fetch data from the Overpass API
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Network response was not ok " + response.statusText);
@@ -45,20 +41,14 @@ async function fetchData() {
     }
 }
 
-// Function to display the fetched data on the webpage
+// Function to display the fetched Overpass data
 function displayData(data) {
     const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = "<h2>Restaurants in the 1000-meter Radius</h2>";
-    // Loop through each element in the response data
+    resultsDiv.innerHTML = "<h2>Recycling places in the 10000-meter Radius</h2>";
+    
     data.elements.forEach(element => {
         if (element.type === "way") {
-            console.log(element);
-            const city = element.tags && element.tags['addr:city'] ? element.tags['addr:city'] : "Unknown City";
-            const houseNumber = element.tags && element.tags['addr:housenumber'] ? element.tags['addr:housenumber'] : "Unknown House Number";
-            const street = element.tags && element.tags['addr:street'] ? element.tags['addr:street'] : "Unknown Street";
-            const postcode = element.tags && element.tags['addr:postcode'] ? element.tags['addr:postcode'] : "Unknown Postcode";
-            // Display the name and coordinates of each park
-            const name = element.tags && element.tags.name ? element.tags.name : "Unnamed Park";
+            const name = element.tags && element.tags.name ? element.tags.name : "Unnamed Place";
             const listItem = document.createElement("div");
             listItem.innerHTML = `<strong>${name}</strong> - ID: ${element.id}`;
             resultsDiv.appendChild(listItem);
@@ -66,5 +56,57 @@ function displayData(data) {
     });
 }
 
-// Attach event listener to the button
+// Function to get coordinates from an address
+function getCoorFromAddress(address) {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                console.log("Latitude:", lat, "Longitude:", lon);
+
+                // Update the global latitude and longitude variables
+                latitude = lat;
+                longitude = lon;
+
+                // Display the coordinates on the webpage
+                displayCoordinates(lat, lon);
+
+                // Re-fetch the Overpass data with the new coordinates
+                fetchData();
+            } else {
+                console.log("Address not found.");
+                document.getElementById("results").innerHTML = "Address not found.";
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("results").innerHTML = "Error fetching coordinates. Please try again.";
+        });
+}
+
+// Function to display coordinates on the webpage
+function displayCoordinates(lat, lon) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = `
+        <h3>Coordinates:</h3>
+        <p>Latitude: ${lat}</p>
+        <p>Longitude: ${lon}</p>
+        <a href="https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}" target="_blank">View on Map</a>
+    `;
+}
+
+// Event listener for the Overpass data fetch button
 document.getElementById("fetchDataBtn").addEventListener("click", fetchData);
+
+// Event listener for the address input button
+document.getElementById("fetchCoordinatesBtn").addEventListener("click", function() {
+    const address = document.getElementById("addressInput").value;
+    if (address) {
+        getCoorFromAddress(address);
+    } else {
+        document.getElementById("results").innerHTML = "Please enter an address.";
+    }
+});

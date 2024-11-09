@@ -4,10 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overpass API Example</title>
+    <style>
+        /* Styling for the address suggestion dropdown */
+        #suggestions {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            position: absolute;
+            background-color: white;
+            width: 300px;
+        }
+        #suggestions li {
+            padding: 8px;
+            cursor: pointer;
+        }
+        #suggestions li:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
     <h1>Overpass API Data Fetch</h1>
+
+    <!-- Button to fetch parks data -->
     <button id="fetchDataBtn">Fetch Parks Data</button>
+    
+    <!-- Address Input Section -->
+    <h2>Enter an Address to Get Coordinates</h2>
+    <input id="addressInput" type="text" placeholder="Enter Address" />
+    <ul id="suggestions"></ul> <!-- Dropdown for suggestions -->
+    <button id="fetchCoordinatesBtn">Get Coordinates</button>
+
+    <!-- Divs to display the results -->
     <div id="results"></div>
 
     <script src="script.js"></script>
