@@ -3,7 +3,6 @@ let latitude = 40.712776; // Default Latitude of the center point
 let longitude = -74.005974; // Default Longitude of the center point
 const radius = 100000; // Radius in meters
 
-
 // Function to fetch data from Overpass API
 async function fetchData() {
     const query = `
@@ -23,6 +22,7 @@ async function fetchData() {
         way["recycling:shoes"](around:${radius},${latitude},${longitude});
         way["recycling:green_waste"](around:${radius},${latitude},${longitude});
         way["recycling:paper_packaging"](around:${radius},${latitude},${longitude});
+        
     );
     out body;
 `;
@@ -45,13 +45,15 @@ async function fetchData() {
 function displayData(data) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = "<h2>Recycling places in the 10000-meter Radius</h2>";
-    
     data.elements.forEach(element => {
         if (element.type === "way") {
+            console.log(element);
             const name = element.tags && element.tags.name ? element.tags.name : "Unnamed Place";
-            const listItem = document.createElement("div");
-            listItem.innerHTML = `<strong>${name}</strong> - ID: ${element.id}`;
-            resultsDiv.appendChild(listItem);
+            if(name!="Unnamed Place"){
+                const listItem = document.createElement("div");
+                listItem.innerHTML = `<strong>${name}</strong> - ID: ${element.id}`;
+                resultsDiv.appendChild(listItem);
+            }
         }
     });
 }
@@ -75,8 +77,7 @@ function getCoorFromAddress(address) {
                 // Display the coordinates on the webpage
                 displayCoordinates(lat, lon);
 
-                // Re-fetch the Overpass data with the new coordinates
-                fetchData();
+
             } else {
                 console.log("Address not found.");
                 document.getElementById("results").innerHTML = "Address not found.";
