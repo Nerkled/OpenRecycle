@@ -70,6 +70,7 @@ function getCoorFromAddress(address) {
                 // Update the global latitude and longitude variables
                 latitude = lat;
                 longitude = lon;
+                console.log("Updated Latitude:", latitude, "Updated Longitude:", longitude);
 
                 // Display the coordinates on the webpage
                 displayCoordinates(lat, lon);
