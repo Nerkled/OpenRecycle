@@ -1,9 +1,12 @@
 // Declare latitude and longitude variables globally
 let latitude = 40.712776; // Default Latitude of the center point
 let longitude = -74.005974; // Default Longitude of the center point
-const radius = 10000; // Radius in meters
+const radius = 100000; // Radius in meters
 
-const query = `
+
+// Function to fetch data from Overpass API
+async function fetchData() {
+    const query = `
     [out:json];
     (
         way["recycling"](around:${radius},${latitude},${longitude});
@@ -23,9 +26,6 @@ const query = `
     );
     out body;
 `;
-
-// Function to fetch data from Overpass API
-async function fetchData() {
     const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
     try {
@@ -89,12 +89,12 @@ function getCoorFromAddress(address) {
 }
 
 // Function to display coordinates on the webpage
-function displayCoordinates(lat, lon) {
+function displayCoordinates(latitude, longitude) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = `
         <h3>Coordinates:</h3>
-        <p>Latitude: ${lat}</p>
-        <p>Longitude: ${lon}</p>
+        <p>Latitude: ${latitude}</p>
+        <p>Longitude: ${longitude}</p>
         <a href="https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}" target="_blank">View on Map</a>
     `;
 }
