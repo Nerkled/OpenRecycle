@@ -11,10 +11,15 @@
     <div id="results"></div>
 
     <script>
-        // Define the Overpass API query
+        // Define the Overpass API query to fetch parks within a 500 meter radius
+        const latitude = 40.712776; // Latitude of the center point
+        const longitude = -74.005974; // Longitude of the center point
+        const radius = 500; // Radius in meters
+
+        // Overpass query using the "around" filter for radius
         const query = `
             [out:json];
-            way["leisure"="park"](40.712776, -74.005974, 40.742776, -73.975974);
+            way["leisure"="park"](around:${radius},${latitude},${longitude});
             out body;
         `;
 
@@ -40,8 +45,8 @@
         // Function to display the fetched data on the webpage
         function displayData(data) {
             const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = "<h2>Parks in New York City</h2>";
-            
+            resultsDiv.innerHTML = "<h2>Parks in the 500-meter Radius</h2>";
+
             // Loop through each element in the response data
             data.elements.forEach(element => {
                 if (element.type === "way") {
