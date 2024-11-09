@@ -45,7 +45,6 @@ async function fetchData() {
 function displayData(data) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = "<h2>Recycling places in the 10000-meter Radius</h2>";
-    
     data.elements.forEach(element => {
         if (element.type === "way") {
             console.log(element);
