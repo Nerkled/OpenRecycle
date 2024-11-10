@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overpass API Example</title>
 
+    <!-- Tailwind CSS (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
     <!-- jQuery (CDN) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Leaflet (CDN) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <!-- Link to Custom Stylesheet -->
     <link rel="stylesheet" href="styles.css">
@@ -65,6 +69,9 @@
             </button>
             </div>
         </div>
+
+       ' <!-- Map Section -->
+        <div id="map" class="h-96 w-full mb-8"></div>'
 
         <!-- Results Section -->
         <div id="results" class="p-6 bg-white border rounded-lg shadow-md mt-8">

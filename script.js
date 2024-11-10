@@ -1,29 +1,36 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const recyclableItems = ["plastic", "metal", "glass", "paper", "cardboard"];
-    let latitude = 40.7128; // Default to New York City coordinates
+    let latitude = 40.7128;  // Default to New York City coordinates
     let longitude = -74.0060;
-    const radius = 5000;
 
-    // Check if geolocation is available
-    if (navigator.geolocation) {
-        // Inform the user about location usage
-        document.getElementById('locationInfo').innerHTML = "<p>We are requesting your location to show nearby recycling centers. Please allow location access.</p>";
+    // Initialize the map
+    const map = L.map('map').setView([latitude, longitude], 13);
 
-        // Try to get the user's current position as soon as the page loads
-        navigator.geolocation.getCurrentPosition(position => {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            console.log("User location:", latitude, longitude);
-        }, (error) => {
-            // Handle errors if the user denies geolocation access
-            if (error.code === error.PERMISSION_DENIED) {
-                alert("You have denied location access. You can still search for recycling locations by entering a ZIP code.");
-            } else {
-                alert("Error getting location. Please try again later.");
-            }
-        });
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ask the user for location access via a browser confirm dialog
+    if (confirm("We need access to your location to show nearby recycling centers. Would you like to share your location?")) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                map.setView([latitude, longitude], 13);
+                L.marker([latitude, longitude]).addTo(map).bindPopup("<b>Your Location</b>").openPopup();
+            }, (error) => {
+                if (error.code === error.PERMISSION_DENIED) {
+                    alert("You have denied location access. You can still search for recycling locations by entering a ZIP code.");
+                } else {
+                    alert("Error getting location. Please try again later.");
+                }
+            });
+        } else {
+            alert("Geolocation is not supported by your browser.");
+        }
     } else {
-        alert("Geolocation is not supported by your browser.");
+        alert("You can still search for recycling locations by entering a ZIP code.");
     }
 
     // Autocomplete for recyclable items
@@ -34,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Build Overpass API query
-    function buildQuery(item, lat, lon) {
+    function buildQuery(item, lat, lon, radius) {
         const itemTag = `recycling:${item.toLowerCase()}`;
         return `
             [out:json];
@@ -85,6 +92,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p><strong>Coordinates:</strong> Latitude: ${lat}, Longitude: ${lon}</p>
                 `;
                 resultsDiv.appendChild(listItem);
+
+                // Add marker to the map
+                L.marker([lat, lon]).addTo(map)
+                    .bindPopup(`<b>${name}</b><br>${description}`)
+                    .openPopup();
             }
         });
     }
@@ -93,38 +105,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("fetchDataBtn").addEventListener("click", function() {
         const itemInput = document.getElementById("itemInput").value.trim();
         const zipInput = document.getElementById("zipInput").value.trim();
-        if (itemInput && zipInput) {
+        const radiusInput = document.getElementById("radiusInput").value.trim();
+        if (itemInput && zipInput && radiusInput) {
             getCoorFromAddress(zipInput).then(({ lat, lon }) => {
-                const query = buildQuery(itemInput, lat, lon);
+                const query = buildQuery(itemInput, lat, lon, radiusInput);
                 fetchData(query);
             }).catch(error => {
                 console.error("Error fetching coordinates:", error);
                 document.getElementById('results').innerHTML = "<p>Error fetching coordinates. Please try again later.</p>";
             });
         } else {
-            document.getElementById('results').innerHTML = "<p>Please enter both a recycling item and a ZIP code to search for.</p>";
-        }
-    });
-
-    // Handle "Use My Location" button click
-    document.getElementById("useLocationBtn").addEventListener("click", function() {
-        const itemInput = document.getElementById("itemInput").value.trim();
-        if (itemInput) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-                    const query = buildQuery(itemInput, lat, lon);
-                    fetchData(query);
-                }, (error) => {
-                    console.error("Error getting location:", error);
-                    document.getElementById('results').innerHTML = "<p>Error getting location. Please try again later.</p>";
-                });
-            } else {
-                document.getElementById('results').innerHTML = "<p>Geolocation is not supported by your browser.</p>";
-            }
-        } else {
-            document.getElementById('results').innerHTML = "<p>Please enter a recycling item to search for.</p>";
+            document.getElementById('results').innerHTML = "<p>Please enter a recycling item, a ZIP code, and a radius to search for.</p>";
         }
     });
 
