@@ -1,7 +1,7 @@
 // Declare latitude and longitude variables globally
 let latitude = 40.712776; // Default Latitude of the center point
 let longitude = -74.005974; // Default Longitude of the center point
-const radius = 100000; // Radius in meters
+const radius = 100000;
 
 // Function to fetch data from Overpass API
 async function fetchData(query) {
@@ -30,7 +30,7 @@ function displayData(data) {
             if(name!="Unnamed Place"){
                 console.log(element);
                 const listItem = document.createElement("div");
-                listItem.innerHTML = `<strong>${name}</strong> - ID: ${element.id}`;
+                listItem.innerHTML = `<strong>${name}</strong>`;
                 resultsDiv.appendChild(listItem);
             }
         }
@@ -46,15 +46,13 @@ function getCoorFromAddress(address) {
         .then(data => {
             if (data.length > 0) {
                 const { lat, lon } = data[0];
-                console.log("Latitude:", lat, "Longitude:", lon);
-
                 // Update the global latitude and longitude variables
                 latitude = lat;
                 longitude = lon;
                 console.log("Updated Latitude:", latitude, "Updated Longitude:", longitude);
 
                 // Display the coordinates on the webpage
-                displayCoordinates(lat, lon);
+                displayCoordinatesWorking(lat, lon);
 
 
             } else {
@@ -69,13 +67,10 @@ function getCoorFromAddress(address) {
 }
 
 // Function to display coordinates on the webpage
-function displayCoordinates(latitude, longitude) {
+function displayCoordinatesWorking(latitude, longitude) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = `
-        <h3>Coordinates:</h3>
-        <p>Latitude: ${latitude}</p>
-        <p>Longitude: ${longitude}</p>
-        <a href="https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}" target="_blank">View on Map</a>
+        <h3>Address Accepted</h3>
     `;
 }
 
@@ -119,6 +114,7 @@ document.getElementById("fetchCoordinatesBtn").addEventListener("click", getFlas
 
 // Function to send user input to the backend
 async function sendUserInputToBackend(item) {
+    document.getElementById('results').innerHTML = `<h2>Loading...</h2>`;
     try {
         const response = await fetch('http://127.0.0.1:5000/fetch_data', {
             method: 'POST',
@@ -131,13 +127,12 @@ async function sendUserInputToBackend(item) {
             throw new Error('Network response was not ok');
         }
         //console.log to show loading
-        console.log("Loading...");
+        //send something to result saying loading
         const data = await response.json();
         const arr = parseReceivedData(data.message);
         console.log(arr);
         const query = createQuery(arr);
         fetchData(query);
-        document.getElementById('results').innerHTML = `<h2>${data.message}</h2>`;
     } catch (error) {
         console.error('Error sending user input to backend:', error);
         document.getElementById('results').innerHTML = "<p>Error sending user input to the server.</p>";
@@ -162,6 +157,7 @@ function parseReceivedData(input) {
 }
 //parameter should be array of items
 function createQuery(items){
+    console.log(radius);
     let query = `
     [out:json];
     (
