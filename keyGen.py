@@ -1,3 +1,4 @@
+# in the future make it so it doesnt include keys with less then 2 value
 import json
 keys = []
 with open('recycling.json', 'r') as file:
