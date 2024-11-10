@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overpass API Example</title>
 
+    <!-- jQuery (CDN) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Link to Custom Stylesheet -->
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body class="bg-gray-50 text-gray-800 font-sans">
 
     <div class="container mx-auto px-6 py-8">
         <h1 class="text-4xl font-semibold text-center text-blue-600 mb-8">Overpass API Data Fetch</h1>
-    
+
         <!-- Address Input Section -->
         <div class="mb-8 text-center">
             <h2 class="text-2xl font-semibold text-gray-800 mb-3">Enter an Address to Get Coordinates</h2>
@@ -30,26 +33,32 @@
                 </button>
             </div>
         </div>
-    
+
+        <!-- Location Info Section -->
+        <div id="locationInfo" class="mb-8 text-center"></div>
+
         <!-- Search Bar Section -->
         <div class="mb-8 text-center">
             <h2 class="text-2xl font-semibold text-gray-800 mb-3">Search for Recycling Centers</h2>
             <div class="flex justify-center items-center space-x-4">
                 <input id="itemInput" type="text" placeholder="Enter a recycling item (e.g., plastic, metal)"
                     class="w-full sm:w-96 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <input id="zipInput" type="text" placeholder="Enter ZIP Code"
-                    class="w-full sm:w-48 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <button id="useLocationBtn"
-                    class="bg-yellow-500 text-white text-lg p-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                    Use My Location
-                </button>
+                <div id="zipOrLocation" class="flex items-center space-x-4">
+                    <input id="zipInput" type="text" placeholder="Enter ZIP Code"
+                        class="w-full sm:w-48 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <span class="text-gray-600">or</span>
+                    <button id="useLocationBtn"
+                        class="bg-yellow-500 text-white text-lg p-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                        Use My Location
+                    </button>
+                </div>
                 <button id="fetchDataBtn"
                     class="bg-blue-500 text-white text-lg p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     SEARCH
                 </button>
             </div>
         </div>
-    
+
         <!-- Results Section -->
         <div id="results" class="p-6 bg-white border rounded-lg shadow-md mt-8">
             <h3 class="text-xl font-semibold text-center text-gray-700">Results</h3>
@@ -60,5 +69,4 @@
     <script src="script.js"></script>
 
 </body>
-
 </html>

@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check if geolocation is available
     if (navigator.geolocation) {
-        // Try to get the user's current position
+        // Inform the user about location usage
+        document.getElementById('locationInfo').innerHTML = "<p>We are requesting your location to show nearby recycling centers. Please allow location access.</p>";
+
+        // Try to get the user's current position as soon as the page loads
         navigator.geolocation.getCurrentPosition(position => {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
@@ -42,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
-    // Fetch data from Overpass API
     async function fetchData(query) {
         const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
         
@@ -59,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Display fetched recycling data
     function displayData(data) {
         const resultsDiv = document.getElementById('results');
         resultsDiv.innerHTML = "<h2>Recycling Locations</h2>";
@@ -109,8 +110,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("useLocationBtn").addEventListener("click", function() {
         const itemInput = document.getElementById("itemInput").value.trim();
         if (itemInput) {
-            const query = buildQuery(itemInput, latitude, longitude);
-            fetchData(query);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const query = buildQuery(itemInput, lat, lon);
+                    fetchData(query);
+                }, (error) => {
+                    console.error("Error getting location:", error);
+                    document.getElementById('results').innerHTML = "<p>Error getting location. Please try again later.</p>";
+                });
+            } else {
+                document.getElementById('results').innerHTML = "<p>Geolocation is not supported by your browser.</p>";
+            }
         } else {
             document.getElementById('results').innerHTML = "<p>Please enter a recycling item to search for.</p>";
         }
