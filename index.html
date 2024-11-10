@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,7 +19,7 @@
         <h1 class="text-4xl font-semibold text-center text-blue-600 mb-8">Overpass API Data Fetch</h1>
     
         <!-- Address Input Section -->
-        <div class="mb-8">
+        <div class="mb-8 text-center">
             <h2 class="text-2xl font-semibold text-gray-800 mb-3">Enter an Address to Get Coordinates</h2>
             <div class="flex justify-center items-center space-x-4">
                 <input id="addressInput" type="text" placeholder="Enter Address"
@@ -33,27 +32,22 @@
         </div>
     
         <!-- Search Bar Section -->
-        <div class="mb-8">
+        <div class="mb-8 text-center">
             <h2 class="text-2xl font-semibold text-gray-800 mb-3">Search for Recycling Centers</h2>
             <div class="flex justify-center items-center space-x-4">
                 <input id="itemInput" type="text" placeholder="Enter a recycling item (e.g., plastic, metal)"
                     class="w-full sm:w-96 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                 <input id="zipInput" type="text" placeholder="Enter ZIP Code"
                     class="w-full sm:w-48 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <button id="useLocationBtn"
+                    class="bg-yellow-500 text-white text-lg p-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    Use My Location
+                </button>
                 <button id="fetchDataBtn"
                     class="bg-blue-500 text-white text-lg p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     SEARCH
                 </button>
             </div>
-        </div>
-    
-        <!-- Map Section -->
-        <div class="my-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-3">Map</h2>
-            <iframe
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-122.4204025276947%2C37.77327815538154%2C-122.41443600654602%2C37.776611202152634&amp;layer=mapnik"
-                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
-            </iframe>
         </div>
     
         <!-- Results Section -->
