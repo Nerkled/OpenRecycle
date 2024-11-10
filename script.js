@@ -47,9 +47,9 @@ function displayData(data) {
     resultsDiv.innerHTML = "<h2>Recycling places in the 10000-meter Radius</h2>";
     data.elements.forEach(element => {
         if (element.type === "way") {
-            console.log(element);
             const name = element.tags && element.tags.name ? element.tags.name : "Unnamed Place";
             if(name!="Unnamed Place"){
+                console.log(element);
                 const listItem = document.createElement("div");
                 listItem.innerHTML = `<strong>${name}</strong> - ID: ${element.id}`;
                 resultsDiv.appendChild(listItem);
