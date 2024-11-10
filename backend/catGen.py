@@ -13,6 +13,7 @@ def genCategories(userPrompt):
     
     chatPrompt = genPrompt(userPrompt)
     response = interpret(chatPrompt)
+    response = response.strip(" ")
     return response
 
 #sys.exit(response)
