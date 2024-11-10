@@ -4,28 +4,7 @@ let longitude = -74.005974; // Default Longitude of the center point
 const radius = 100000; // Radius in meters
 
 // Function to fetch data from Overpass API
-async function fetchData() {
-    const query = `
-    [out:json];
-    (
-        way["recycling"](around:${radius},${latitude},${longitude});
-        way["recycling:glass_bottles"](around:${radius},${latitude},${longitude});
-        way["recycling:paper"](around:${radius},${latitude},${longitude});
-        way["recycling:glass"](around:${radius},${latitude},${longitude});
-        way["recycling:plastic"](around:${radius},${latitude},${longitude});
-        way["recycling:clothes"](around:${radius},${latitude},${longitude});
-        way["recycling:cans"](around:${radius},${latitude},${longitude});
-        way["recycling:plastic_bottles"](around:${radius},${latitude},${longitude});
-        way["recycling:plastic_packaging"](around:${radius},${latitude},${longitude});
-        way["recycling:waste"](around:${radius},${latitude},${longitude});
-        way["recycling:cardboard"](around:${radius},${latitude},${longitude});
-        way["recycling:shoes"](around:${radius},${latitude},${longitude});
-        way["recycling:green_waste"](around:${radius},${latitude},${longitude});
-        way["recycling:paper_packaging"](around:${radius},${latitude},${longitude});
-        
-    );
-    out body;
-`;
+async function fetchData(query) {
     const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
 
     try {
@@ -101,7 +80,7 @@ function displayCoordinates(latitude, longitude) {
 }
 
 // Event listener for the Overpass data fetch button
-document.getElementById("fetchDataBtn").addEventListener("click", fetchData);
+document.getElementById("fetchDataBtn").addEventListener("click", sendUserInputToBackend);
 
 // Event listener for the address input button
 document.getElementById("fetchCoordinatesBtn").addEventListener("click", function() {
@@ -154,6 +133,10 @@ async function sendUserInputToBackend(item) {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        const arr = parseReceivedData(data.message);
+        console.log(arr);
+        const query = createQuery(arr);
+        fetchData(query);
         document.getElementById('results').innerHTML = `<h2>${data.message}</h2>`;
     } catch (error) {
         console.error('Error sending user input to backend:', error);
@@ -170,3 +153,28 @@ document.getElementById("fetchDataBtn").addEventListener("click", function() {
         document.getElementById("results").innerHTML = "Please enter a recycling item.";
     }
 });
+
+function parseReceivedData(input) {
+    // Split the input by newlines to get each item and trim spaces
+    let items = input.split('\n').map(item => item.trim());
+
+    // Remove any empty strings in case of trailing newlines
+    return items.filter(item => item !== "");
+}
+//parameter should be array of items
+function createQuery(items){
+    let query = `
+    [out:json];
+    (
+    `;
+    items.forEach(item => {
+        query += `
+        way["recycling:${item}"](around:${radius},${latitude},${longitude});
+        `;
+    });
+    query += `
+    );
+    out body;
+    `;
+    return query;
+}
