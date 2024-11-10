@@ -18,7 +18,8 @@ def fetch_data():
         data = request.get_json()
         item = data.get('item')
         # Process the item as needed
-        return jsonify({'message': f'Received item: {item}'})
+        response = genCategories(item)
+        return jsonify({'message': f'Received item: {response}'})
     else:
         return jsonify({'message': 'working'})
 
