@@ -45,15 +45,10 @@
             <div class="flex justify-center items-center space-x-4">
             <input id="itemInput" type="text" placeholder="Enter a recycling item (e.g., plastic, metal)"
                 class="w-full sm:w-48 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-            <div id="zipOrLocation" class="flex items-center space-x-4">
-                <input id="zipInput" type="text" placeholder="Enter ZIP Code"
-                class="w-full sm:w-64 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <div class="flex items-center space-x-2">
-                <input id="radiusInput" type="number" value="5000" min="100" max="50000" step="100"
+                <input id="radiusInput" type="number" value="5000" min="100" max="500000" step="100"
                     class="w-full sm:w-48 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                 <span class="text-gray-600">m</span>
                 </div>
-                <span class="text-gray-600">or</span>
             </div>
             <button id="fetchDataBtn"
                 class="bg-blue-500 text-white text-lg p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">

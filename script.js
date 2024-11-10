@@ -79,8 +79,6 @@ function displayCoordinates(latitude, longitude) {
     `;
 }
 
-// Event listener for the Overpass data fetch button
-//document.getElementById("fetchDataBtn").addEventListener("click", sendUserInputToBackend);
 
 // Event listener for the address input button
 document.getElementById("fetchCoordinatesBtn").addEventListener("click", function() {
