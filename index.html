@@ -1,26 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Overpass API Example</title>
 
     <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- jQuery (CDN) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Leaflet (CDN) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <!-- Link to Custom Stylesheet -->
     <link rel="stylesheet" href="styles.css">
+
+    <!--Link to Google Font used-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
 
 </head>
 
 <body class="bg-gray-50 text-gray-800 font-sans">
 
     <div class="container mx-auto px-6 py-8">
-        <h1 class="text-4xl font-semibold text-center text-blue-600 mb-8">Overpass API Data Fetch</h1>
-    
+        <h1 class="text-4xl font-semibold text-center text-blue-600 mb-8">TITLE</h1>
+
         <!-- Address Input Section -->
-        <div class="mb-8">
+
+
+        <div class="mb-8 text-center">
             <h2 class="text-2xl font-semibold text-gray-800 mb-3">Enter an Address to Get Coordinates</h2>
             <div class="flex justify-center items-center space-x-4">
                 <input id="addressInput" type="text" placeholder="Enter Address"
@@ -31,31 +43,36 @@
                 </button>
             </div>
         </div>
-    
+
+        <!-- Location Info Section -->
+        <div id="locationInfo" class="mb-8 text-center"></div>
+
         <!-- Search Bar Section -->
-        <div class="mb-8">
+        <div class="mb-8 text-center">
             <h2 class="text-2xl font-semibold text-gray-800 mb-3">Search for Recycling Centers</h2>
             <div class="flex justify-center items-center space-x-4">
-                <input id="itemInput" type="text" placeholder="Enter a recycling item (e.g., plastic, metal)"
-                    class="w-full sm:w-96 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+            <input id="itemInput" type="text" placeholder="Enter a recycling item (e.g., plastic, metal)"
+                class="w-full sm:w-48 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+            <div id="zipOrLocation" class="flex items-center space-x-4">
                 <input id="zipInput" type="text" placeholder="Enter ZIP Code"
+                class="w-full sm:w-64 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <div class="flex items-center space-x-2">
+                <input id="radiusInput" type="number" value="5000" min="100" max="50000" step="100"
                     class="w-full sm:w-48 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                <button id="fetchDataBtn"
-                    class="bg-blue-500 text-white text-lg p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    SEARCH
-                </button>
+                <span class="text-gray-600">m</span>
+                </div>
+                <span class="text-gray-600">or</span>
+            </div>
+            <button id="fetchDataBtn"
+                class="bg-blue-500 text-white text-lg p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                SEARCH
+            </button>
             </div>
         </div>
-    
-        <!-- Map Section -->
-        <div class="my-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-3">Map</h2>
-            <iframe
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-122.4204025276947%2C37.77327815538154%2C-122.41443600654602%2C37.776611202152634&amp;layer=mapnik"
-                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
-            </iframe>
-        </div>
-    
+
+       ' <!-- Map Section -->
+        <div id="map" class="h-96 w-full mb-8"></div>'
+
         <!-- Results Section -->
         <div id="results" class="p-6 bg-white border rounded-lg shadow-md mt-8">
             <h3 class="text-xl font-semibold text-center text-gray-700">Results</h3>
@@ -66,5 +83,4 @@
     <script src="script.js"></script>
 
 </body>
-
 </html>

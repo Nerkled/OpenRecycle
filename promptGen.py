@@ -23,4 +23,5 @@ def genPrompt(userPrompt):
     chatPrompt = f"""You are a chatbot helping match tags to what a user inputs to get disposed of. Interpret the users statement and match it as closely with its corresponding tag or tags. User input: "{userPrompt}". Possible tags:\n{keys}\n"""
     chatPrompt += "\n\nOutput only the following tags as a list with each item on its own line, without any extra explanations or human language. Do not number the list. Answer:"# {$TAGS}"
     #print(chatPrompt)
+
     return chatPrompt
