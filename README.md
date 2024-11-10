@@ -28,6 +28,6 @@ OpenRecycle is a front-end application that uses open-source APIs to display rec
    cd OpenRecycle
 2. Ensure dependencies are installed and working
 3.Run the flask server backend
-   '''bash
+   ```bash
    python serverCalling.py
 5. Run a live server and open index.html with your browser
