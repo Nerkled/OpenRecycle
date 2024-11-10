@@ -80,7 +80,7 @@ function displayCoordinates(latitude, longitude) {
 }
 
 // Event listener for the Overpass data fetch button
-document.getElementById("fetchDataBtn").addEventListener("click", sendUserInputToBackend);
+//document.getElementById("fetchDataBtn").addEventListener("click", sendUserInputToBackend);
 
 // Event listener for the address input button
 document.getElementById("fetchCoordinatesBtn").addEventListener("click", function() {
@@ -132,6 +132,8 @@ async function sendUserInputToBackend(item) {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+        //console.log to show loading
+        console.log("Loading...");
         const data = await response.json();
         const arr = parseReceivedData(data.message);
         console.log(arr);
@@ -157,7 +159,6 @@ document.getElementById("fetchDataBtn").addEventListener("click", function() {
 function parseReceivedData(input) {
     // Split the input by newlines to get each item and trim spaces
     let items = input.split('\n').map(item => item.trim());
-
     // Remove any empty strings in case of trailing newlines
     return items.filter(item => item !== "");
 }
