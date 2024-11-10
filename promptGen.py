@@ -16,6 +16,8 @@ def genPrompt(userPrompt):
     Your task is to identify the specific material types and output a list of tags.\nThe user said: "{userPrompt}"
 
     Please respond with a list of tags such as:\n{keys}
+
+    Answer:
     """
 
     return chatPrompt
