@@ -27,7 +27,7 @@ OpenRecycle is a front-end application that uses open-source APIs to display rec
    git clone https://github.com/username/OpenRecycle.git
    cd OpenRecycle
 2. Ensure dependencies are installed and working
-3. 3. Run the flask server backend
+3.Run the flask server backend
    '''bash
    python serverCalling.py
-4. Run a live server and open index.html with your browser
+5. Run a live server and open index.html with your browser
