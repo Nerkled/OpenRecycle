@@ -5,7 +5,6 @@ import sys
 
 def genPrompt(userPrompt):
     
-    
     keys = ""
     with open("keywords.txt", "r") as file:
         for line in file:

@@ -1,41 +1,122 @@
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    padding: 20px;
 }
 
 h1, h2, h3 {
+    font-weight: 600;
+    color: #333;
     text-align: center;
+    margin-bottom: 16px;
+}
+
+h1 {
+    font-size: 36px;
+    color: #2d87f0;
+}
+
+h2 {
+    font-size: 28px;
+    color: #5a5a5a;
+}
+
+h3 {
+    font-size: 22px;
+    color: #444;
 }
 
 input[type="text"] {
     width: 100%;
-    padding: 10px;
-    margin: 5px 0;
+    padding: 12px 16px;
+    margin: 10px 0;
     box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
 }
 
 button {
-    padding: 10px 20px;
-    margin: 5px 0;
+    padding: 12px 20px;
+    margin: 10px 0;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #4caf50;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
-    opacity: 0.8;
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+#useLocationBtn {
+    background-color: #fbbd09;
+    color: #333;
+}
+
+#useLocationBtn:hover {
+    background-color: #f99f00;
 }
 
 #results {
     margin-top: 20px;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#resultsText {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    input[type="text"], button {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 10px 16px;
+    }
 }
