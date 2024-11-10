@@ -23,7 +23,10 @@ OpenRecycle is a front-end application that uses open-source APIs to display rec
    git clone https://github.com/username/OpenRecycle.git
    cd OpenRecycle
 
-LICENSING CREDITS
+# LICENSING CREDITS
 OpenStreetMap(OSM, Overpass, Nominatin)     https://www.openstreetmap.org/copyright/
+<br></br>
 Ollama                                      https://github.com/ollama/ollama/blob/main/LICENSE
+<br></br>
 Llama3.1                                    https://www.llama.com/llama3_1/license/
+<br></br>
