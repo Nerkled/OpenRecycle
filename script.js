@@ -48,7 +48,7 @@ function displayData(data) {
     data.elements.forEach(element => {
         if (element.type === "way") {
             const name = element.tags && element.tags.name ? element.tags.name : "Unnamed Place";
-            if(name!="Unnamed Place"){
+            if (name !== "Unnamed Place") {
                 console.log(element);
                 const listItem = document.createElement("div");
                 listItem.innerHTML = `<strong>${name}</strong> - ID: ${element.id}`;
@@ -58,35 +58,36 @@ function displayData(data) {
     });
 }
 
-// Function to get coordinates from an address
-function getCoorFromAddress(address) {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
+// Function to get coordinates from an address and then search for recycling centers
+async function fetchCoordinatesAndSearch() {
+    const address = document.getElementById("addressInput").value;
+    if (!address) {
+        document.getElementById("results").innerHTML = "Please enter an address.";
+        return;
+    }
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                const { lat, lon } = data[0];
-                console.log("Latitude:", lat, "Longitude:", lon);
+    try {
+        // Fetch coordinates from the address
+        const coorResponse = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`);
+        const coorData = await coorResponse.json();
 
-                // Update the global latitude and longitude variables
-                latitude = lat;
-                longitude = lon;
-                console.log("Updated Latitude:", latitude, "Updated Longitude:", longitude);
+        if (coorData.length > 0) {
+            const { lat, lon } = coorData[0];
+            latitude = lat;
+            longitude = lon;
 
-                // Display the coordinates on the webpage
-                displayCoordinates(lat, lon);
+            // Display the coordinates
+            displayCoordinates(lat, lon);
 
-
-            } else {
-                console.log("Address not found.");
-                document.getElementById("results").innerHTML = "Address not found.";
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            document.getElementById("results").innerHTML = "Error fetching coordinates. Please try again.";
-        });
+            // Now call fetchData to search for recycling centers with updated coordinates
+            fetchData();
+        } else {
+            document.getElementById("results").innerHTML = "Address not found.";
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("results").innerHTML = "Error fetching coordinates. Please try again.";
+    }
 }
 
 // Function to display coordinates on the webpage
@@ -100,74 +101,5 @@ function displayCoordinates(latitude, longitude) {
     `;
 }
 
-// Event listener for the Overpass data fetch button
-document.getElementById("fetchDataBtn").addEventListener("click", fetchData);
-
-// Event listener for the address input button
-document.getElementById("fetchCoordinatesBtn").addEventListener("click", function() {
-    const address = document.getElementById("addressInput").value;
-    if (address) {
-        getCoorFromAddress(address);
-    } else {
-        document.getElementById("results").innerHTML = "Please enter an address.";
-    }
-});
-
-async function getFlaskData() {
-    try {
-        // Fetch data from the Flask server
-        const response = await fetch('http://127.0.0.1:5000/fetch_data');  // Ensure the URL is correct
-        // Check if the response is successful (status 200)
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        // Parse the JSON response from Flask
-        const data = await response.json();
-
-        // Get the results div
-        const resultsDiv = document.getElementById('results');
-        // Check if the data has a message
-        if (data && data.message) {
-            resultsDiv.innerHTML = `<h2>${data.message}</h2>`; // Show message from Flask
-        } else {
-            resultsDiv.innerHTML = "<p>No message received from the server.</p>";
-        }
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        document.getElementById('results').innerHTML = "<p>Error fetching data from the server.</p>";
-    }
-}
-
-// Attach the event listener to the "Get Coordinates" button
-document.getElementById("fetchCoordinatesBtn").addEventListener("click", getFlaskData);
-
-// Function to send user input to the backend
-async function sendUserInputToBackend(item) {
-    try {
-        const response = await fetch('http://127.0.0.1:5000/fetch_data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ item })
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        document.getElementById('results').innerHTML = `<h2>${data.message}</h2>`;
-    } catch (error) {
-        console.error('Error sending user input to backend:', error);
-        document.getElementById('results').innerHTML = "<p>Error sending user input to the server.</p>";
-    }
-}
-
-// Modify event listener for the search button
-document.getElementById("fetchDataBtn").addEventListener("click", function() {
-    const item = document.getElementById("itemInput").value;
-    if (item) {
-        sendUserInputToBackend(item);
-    } else {
-        document.getElementById("results").innerHTML = "Please enter a recycling item.";
-    }
-});
+// Attach the event listener to the new single button
+document.getElementById("fetchCoordinatesAndSearchBtn").addEventListener("click", fetchCoordinatesAndSearch);

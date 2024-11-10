@@ -22,6 +22,8 @@ h1, h2, h3 {
 h1 {
     font-size: 36px;
     color: #2d87f0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 h2 {
@@ -63,25 +65,27 @@ button {
     text-transform: uppercase;
     background-color: #4caf50;
     color: white;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
     background-color: #45a049;
     transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 button:active {
     transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#useLocationBtn {
-    background-color: #fbbd09;
-    color: #333;
+#fetchCoordinatesAndSearchBtn {
+    background-color: #2d87f0;
+    color: #fff;
 }
 
-#useLocationBtn:hover {
-    background-color: #f99f00;
+#fetchCoordinatesAndSearchBtn:hover {
+    background-color: #246bb8;
 }
 
 #results {
@@ -91,12 +95,40 @@ button:active {
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-#resultsText {
-    color: #555;
+#results h3 {
+    font-size: 24px;
+    color: #2d87f0;
+    margin-bottom: 10px;
+}
+
+#results p, #results a {
     font-size: 16px;
+    color: #555;
     line-height: 1.5;
+}
+
+#results a {
+    color: #2d87f0;
+    text-decoration: underline;
+}
+
+#results a:hover {
+    color: #246bb8;
+}
+
+input[type="text"], button {
+    display: inline-block;
+    width: calc(33% - 10px);
+    margin-right: 10px;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+button:last-of-type {
+    margin-right: 0;
 }
 
 @media (max-width: 768px) {
@@ -114,6 +146,8 @@ button:active {
 
     input[type="text"], button {
         font-size: 14px;
+        width: 100%;
+        margin: 10px 0;
     }
 
     button {
