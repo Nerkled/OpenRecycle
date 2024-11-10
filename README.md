@@ -11,11 +11,14 @@ OpenRecycle is a front-end application that uses open-source APIs to display rec
 
 ## Technologies
 
-- **Ollama3.1** - Allows for a dynamic input that can span over several types of recycking materials.
+- **Ollama** - LLM that allows for various models.
+- **Llama3.1** - Generic model modified using prompts.
 - **JavaScript** - Core language for app logic.
-  **Flask** - Lets you use python on the web
-- **Overpass API** - API for retrieving recycling-related location data.
+- **Flask** - Python based web framework for server querying.
+- **OpenStreetMap, Overpass API, Nominatin** - API for retrieving map data, geocoding, and business data.
+- **Python** - Backend for data manipulation. 
 - **HTML/CSS** - Basic structure and styling.
+
 
 ## Project Setup
 
@@ -23,6 +26,14 @@ OpenRecycle is a front-end application that uses open-source APIs to display rec
    ```bash
    git clone https://github.com/username/OpenRecycle.git
    cd OpenRecycle
+
+
+## Future Goals
+- Fine tuning of LLM instead of prompt manipulation for better accuracy.
+- Updating and cleanup of OSM Tag database.
+- CLI to allow use of only specific functions such as prompt generation.
+- Benchmark and improve server hardware.
+
 
 # LICENSING CREDITS
 OpenStreetMap(OSM, Overpass, Nominatin)     https://www.openstreetmap.org/copyright/
