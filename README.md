@@ -16,10 +16,18 @@ OpenRecycle is a front-end application that uses open-source APIs to display rec
 - **Overpass API** - API for retrieving recycling-related location data.
 - **HTML/CSS** - Basic structure and styling.
 
+# Dependencies
+- Flask, Flask_cors for Python
+- Ollama, Llama3.1
+
 ## Project Setup
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/username/OpenRecycle.git
    cd OpenRecycle
-
+2. Ensure dependencies are installed and working
+3. 3. Run the flask server backend
+   '''bash
+   python serverCalling.py
+4. Run a live server and open index.html with your browser
