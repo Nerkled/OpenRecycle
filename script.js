@@ -23,7 +23,7 @@ async function fetchData(query) {
 // Function to display the fetched Overpass data
 function displayData(data) {
     const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = "<h2>Recycling places in the 10000-meter Radius</h2>";
+    resultsDiv.innerHTML = "<h2>Recycling places in the 50-mile Radius</h2>";
     data.elements.forEach(element => {
         if (element.type === "way") {
             const name = element.tags && element.tags.name ? element.tags.name : "Unnamed Place";
