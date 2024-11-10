@@ -15,4 +15,5 @@ def interpret(prompt):
     for chunk in stream:
         response += chunk['message']['content']  # Append each chunk to the response
 
+    response.strip(" ")
     return response  # Return the full response after processing all chunks
