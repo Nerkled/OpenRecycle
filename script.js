@@ -116,7 +116,7 @@ document.getElementById("fetchCoordinatesBtn").addEventListener("click", functio
 async function getFlaskData() {
     try {
         // Fetch data from the Flask server
-        const response = await fetch('http://127.0.0.1:5000/fetch_data');
+        const response = await fetch('http://127.0.0.1:5000/fetch_data');  // Ensure the URL is correct
         // Check if the response is successful (status 200)
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -137,6 +137,7 @@ async function getFlaskData() {
         document.getElementById('results').innerHTML = "<p>Error fetching data from the server.</p>";
     }
 }
+
 // Attach the event listener to the "Get Coordinates" button
 document.getElementById("fetchCoordinatesBtn").addEventListener("click", getFlaskData);
 
