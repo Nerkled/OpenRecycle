@@ -116,7 +116,7 @@ document.getElementById("fetchCoordinatesBtn").addEventListener("click", functio
 async function getFlaskData() {
     try {
         // Fetch data from the Flask server
-        const response = await fetch('http://127.0.0.1:5000/fetch_data');
+        const response = await fetch('http://127.0.0.1:5000/fetch_data');  // Ensure the URL is correct
         // Check if the response is successful (status 200)
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -137,5 +137,37 @@ async function getFlaskData() {
         document.getElementById('results').innerHTML = "<p>Error fetching data from the server.</p>";
     }
 }
+
 // Attach the event listener to the "Get Coordinates" button
 document.getElementById("fetchCoordinatesBtn").addEventListener("click", getFlaskData);
+
+// Function to send user input to the backend
+async function sendUserInputToBackend(item) {
+    try {
+        const response = await fetch('http://127.0.0.1:5000/fetch_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ item })
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        document.getElementById('results').innerHTML = `<h2>${data.message}</h2>`;
+    } catch (error) {
+        console.error('Error sending user input to backend:', error);
+        document.getElementById('results').innerHTML = "<p>Error sending user input to the server.</p>";
+    }
+}
+
+// Modify event listener for the search button
+document.getElementById("fetchDataBtn").addEventListener("click", function() {
+    const item = document.getElementById("itemInput").value;
+    if (item) {
+        sendUserInputToBackend(item);
+    } else {
+        document.getElementById("results").innerHTML = "Please enter a recycling item.";
+    }
+});
